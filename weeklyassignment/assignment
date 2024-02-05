@@ -115,8 +115,9 @@ public class Main {
         System.out.println("       --------------------Analyse--------------------");
         System.out.println("                     1.Top 5 Students ");
         System.out.println("                     2.Above Average Students");
-        System.out.println("                     3.Average Students");
-        System.out.println("                     4.Needs Personal Attention ");
+        System.out.println("                     3.Student Distribution");
+        System.out.println("                     4.Average Students");
+        System.out.println("                     5.Needs Personal Attention ");
         System.out.println("       -----------------------------------------------");
         System.out.print("        Enter your choice ");
 
@@ -131,9 +132,13 @@ public class Main {
                 aboveavg();
                 break;
             case 3:
+                System.out.println("Student Distribution is as follows");
+               studentdistribution();
+               break;
+            case 4:
                 Averagestd();
                 break;
-            case 4 :
+            case 5 :
                 Personalattention();
             default:
                 System.out.println("Invalid Entry !!");
@@ -163,6 +168,41 @@ public class Main {
             analyse();
             }
     }
+    public static void studentdistribution()
+    {
+        System.out.println("Above average students are :");
+        int n=marks.size();
+        for(int i=0;i<n;i++)
+        {
+            if(sub1.get(i)>70&&sub2.get(i)>70&&sub3.get(i)>70)
+            {
+                System.out.println(name.get(i));
+            }
+
+        }
+        System.out.println(" Average students are :");
+        for(int i=0;i<n;i++)
+        {
+            if(sub1.get(i)>30&&sub2.get(i)>30&&sub3.get(i)>30&&marks.get(i)<70)
+            {
+                System.out.println(name.get(i));
+            }
+
+        }
+        System.out.println(" Students who needs personal attention :");
+        for(int i=0;i<n;i++)
+        {
+            if(sub1.get(i)<30||sub2.get(i)<30&&sub3.get(i)<30)
+            {
+                System.out.println(name.get(i)+"  "+marks.get(i));
+            }
+
+        }
+        Scanner s=new Scanner(System.in);
+        if (s.hasNextLine()) {
+            analyse();
+        }
+    }
     public static void aboveavg()
     {
         System.out.println("Above average students are :");
@@ -181,6 +221,7 @@ public class Main {
         }
 
     }
+
     public static void Averagestd()
     {
         System.out.println(" Average students are :");
@@ -219,4 +260,6 @@ public class Main {
     {
         mainmenu();
     }
+
+
 
