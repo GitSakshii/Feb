@@ -1,0 +1,222 @@
+import java.util.Scanner;
+import java.util.*;
+import static java.lang.System.exit;
+
+
+public class Main {
+    static Vector<String> name=new Vector<String>();
+
+    static Vector<Integer> sub1=new Vector<Integer>();
+    static Vector<Integer> sub2=new Vector<Integer>();
+    static Vector<Integer> sub3=new Vector<Integer>();
+
+    static Vector<Integer> marks=new Vector<Integer>();
+    static Vector<Integer> sorted=new Vector<Integer>();
+
+
+    public static void mainmenu()
+    {
+
+        System.out.println();
+        System.out.println("            ------------Main Menu-----------");
+        System.out.println("                1. Enter Student records");
+        System.out.println("                2. Analyse");
+        System.out.print("            Enter your choice ");
+        Scanner sc=new Scanner(System.in);
+        int x=sc.nextInt();
+        switch(x)
+        {
+            case 1:
+                getrecords();
+                break;
+            case 2:
+                analyse();
+                break;
+            case 0:
+                exit(0);
+            default:
+                System.out.println("          Invalid input!!! Please select from options below");
+                mainmenu();
+
+
+        }
+    }
+    public static void getrecords(){
+
+        System.out.print("\033[H\033[2J");
+        Scanner sc=new Scanner(System.in);
+        System.out.println("         ---------------------Student Details---------------------");
+        System.out.println("         Enter Details below");
+        System.out.print("         Student Name : ");
+        String st=sc.nextLine();
+        name.add(st);
+        System.out.println("          Marks(out of 100):");
+        while(true) {
+            System.out.print("         Java : ");
+            int s1 = sc.nextInt();
+
+            System.out.println();
+            System.out.print("         C++ : ");
+            int s2 = sc.nextInt();
+
+            System.out.println();
+            System.out.print("         DSA : ");
+            int s3 = sc.nextInt();
+            if(s1<=100&&s1>=0&&s2<=100&&s2>=0&&s3<=100&&s3>=0){
+            sub1.add(s1);
+            sub2.add(s2);
+            sub3.add(s3);
+            marks.add((s1 + s2 + s3) / 3);
+            break;}
+            else{
+                System.out.println("     Marks should be between 0 to 100");
+                System.out.println();
+            }
+        }
+        System.out.println("         Record Saved successfully ");
+        System.out.println("         Save any more ? (y/n)");
+
+            char ch=sc.next().charAt(0);
+            switch(ch)
+            {
+                case 'y':
+                    getrecords();
+                    break;
+                case 'n':
+                    mainmenu();
+                    break;
+                default:
+                    System.out.println("         Invalid Entry!!!");
+            }
+
+
+
+    }
+
+    public static void  analyse()
+    {
+        for(int i=0;i<marks.size();i++)
+        {
+           sorted.add(i);
+        }
+
+        int key, j;
+        for (int i = 1; i < sorted.size(); i++) {
+            key = marks.get(sorted.get(i));
+            int k=sorted.get(i);
+            j = i - 1;
+            while (j >= 0 && marks.get(sorted.get(j)) > key) {
+                sorted.set(j + 1, sorted.get(j));
+                j = j - 1;
+            }
+            sorted.set(j + 1, k);
+        }
+
+        System.out.println("       --------------------Analyse--------------------");
+        System.out.println("                     1.Top 5 Students ");
+        System.out.println("                     2.Above Average Students");
+        System.out.println("                     3.Average Students");
+        System.out.println("                     4.Needs Personal Attention ");
+        System.out.println("       -----------------------------------------------");
+        System.out.print("        Enter your choice ");
+
+        Scanner sc=new Scanner(System.in);
+        int ch=sc.nextInt();
+        switch(ch)
+        {
+            case 1:
+                top5();
+                break;
+            case 2:
+                aboveavg();
+                break;
+            case 3:
+                Averagestd();
+                break;
+            case 4 :
+                Personalattention();
+            default:
+                System.out.println("Invalid Entry !!");
+                analyse();
+                break;
+
+        }
+    }
+    public static void top5()
+    {
+        int n=sorted.size();
+        int x;
+        System.out.println("          Top 5 students are: ");
+            if (n>=5)
+            {
+                x=n-6;
+            }
+            else{
+                x=n;
+            }
+            for (int i = n - 1; i > x; i--) {
+                int j = sorted.get(i);
+                System.out.println(name.get(j) + " " + marks.get(j));
+            }
+            Scanner s=new Scanner(System.in);
+            if (s.hasNextLine()) {
+            analyse();
+            }
+    }
+    public static void aboveavg()
+    {
+        System.out.println("Above average students are :");
+        int n=marks.size();
+        for(int i=0;i<n;i++)
+        {
+            if(sub1.get(i)>70&&sub2.get(i)>70&&sub3.get(i)>70)
+            {
+                System.out.println(name.get(i));
+            }
+
+        }
+        Scanner s=new Scanner(System.in);
+        if (s.hasNextLine()) {
+            analyse();
+        }
+
+    }
+    public static void Averagestd()
+    {
+        System.out.println(" Average students are :");
+        int n=marks.size();
+        for(int i=0;i<n;i++)
+        {
+            if(sub1.get(i)>30&&sub2.get(i)>30&&sub3.get(i)>30&&marks.get(i)<70)
+            {
+                System.out.println(name.get(i));
+            }
+
+        }
+        Scanner s=new Scanner(System.in);
+        if (s.hasNextLine()) {
+            analyse();
+        }
+    }
+    public static void Personalattention()
+    {
+        System.out.println(" Students who needs personal attention :");
+        int n=marks.size();
+        for(int i=0;i<n;i++)
+        {
+            if(sub1.get(i)<30||sub2.get(i)<30&&sub3.get(i)<30)
+            {
+                System.out.println(name.get(i)+"  "+marks.get(i));
+            }
+
+        }
+        Scanner s=new Scanner(System.in);
+        if (s.hasNextLine()) {
+            analyse();
+        }
+    }
+    public static void main(String[] args)
+    {
+        mainmenu();
+    }
+
