@@ -1,0 +1,19 @@
+import java.util.Scanner;
+
+public class R1geometricSum {
+    public static double geometricsum(int n,double k)
+    {
+        if(n==0)return 1;//here the function returns 1 as n reaches 0
+        k=(1.0/2)*k;//k is updated for each function call
+        return k+geometricsum(n-1,k);//adds k to the ans and calls geometric sum for n-1
+
+    }
+    public static void main(String[] args)
+    {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        double ans=geometricsum(n,1);
+       System.out.println(ans);
+
+    }
+}
