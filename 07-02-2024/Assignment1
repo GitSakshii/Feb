@@ -1,0 +1,49 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Q1Anagrams {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        String[] arr=new String[n] ;
+        for(int i=0;i<n;i++)
+        {
+            arr[i]=sc.next();
+        }
+
+        String [] narr=new String[n];
+        // Sort each string and store them in narr array
+        for(int i=0;i<n;i++)
+        {
+          char[] a=arr[i].toCharArray();
+          Arrays.sort(a);
+          narr[i]=String.copyValueOf(a);
+        }
+        int[] istaken=new int[n];// Array to keep track of whether a string has already been processed
+        // Loop through each string to find anagrams
+        for(int i=0;i<n;i++)
+        {
+            ArrayList<String> list=new ArrayList<>();
+            if(istaken[i]==0) {
+                list.add(arr[i]);
+                istaken[i]=1;
+                if(i!=n-1){
+                for (int j = i+1; j <n;j++) {
+                  if(istaken[j]==0)
+                  {
+                      if(narr[i].equals(narr[j]))
+                      {
+                          list.add(arr[j]);// Add the current string to the list
+                          istaken[j]=1;// Mark the current string as processed
+                      }
+                  }
+                }}
+                for(int k=0;k<list.size();k++){
+                    System.out.print(list.get(k)+" ");
+                }
+                System.out.print(",");
+            }
+        }
+    }
+}
