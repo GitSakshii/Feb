@@ -1,0 +1,46 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Q2divideString {
+    // Function to recursively check if the given string can be divided into words from the provided list
+    // Parameters:
+    //   - A: The input string to be divided
+    //   - idx: Current index in the string being checked
+    //   - B: List of words that can be used to divide the string
+    //   - n: Length of the input string
+    // Returns:
+    //   - true if the string can be divided into words from the list, false otherwise
+
+    public static Boolean solve(String A,int idx,ArrayList<String>B,int n)
+    {
+        // If the entire string is found in the word list, return true
+        if(B.contains(A))return true;
+        // If we have reached the end of the string, return true
+        if(idx==n)return true;
+        // Iterate over all possible substrings starting from idx
+        for(int i=idx+1;i<=n;i++)
+        {
+            String tmp=A.substring(idx,i);
+            // If the current substring is in the word list and the rest of the string can also be divided, return true
+            if(B.contains(tmp) && solve(A,i,B,n))return true;
+        }
+        // If no valid partition is found, return false
+        return false;
+    }
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        String str=sc.nextLine();
+        int n=sc.nextInt();
+        ArrayList<String> wordlist=new ArrayList<>();
+        for(int i=0;i<n;i++)
+         {
+             String tmp=sc.next();
+             wordlist.add(tmp);
+        }
+       int m=str.length();
+
+        if(solve(str,0,wordlist,m)) System.out.println(true);
+        else System.out.println(false);
+
+    }
+}
