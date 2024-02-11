@@ -1,0 +1,287 @@
+
+import java.util.*;
+import java.util.Scanner;
+
+//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
+
+
+    class employee{
+        int employeeId;
+        String name;
+        String position;
+        String employmentType;
+        double salary;
+        double timeworked;
+        double totalsalary;
+        employee(int id, String name, String pos, String type, double sal, double time){
+            this.employeeId = id;
+            this.name = name;
+            this.position = pos;
+            this.employmentType = type;
+            this.salary = sal;
+            this.timeworked = time;
+            totalsalary=sal*time*12;
+        }
+        public void display(){
+            System.out.println("EMPLOYEE ID : " + employeeId);
+            System.out.println("NAME : " + name);
+            System.out.println("POSITION : " + position);
+            System.out.println("EMPLOYMENT TYPE : " + employmentType);
+            System.out.println("SALARY : " + salary + "/month");
+            System.out.println("WORKING  : " + timeworked + " months");
+            System.out.println("TOTAL SALARY EARNED: " + totalsalary);
+        }
+        public int getEmployeeID() {
+            return employeeId;
+        }
+
+
+        public String getName() {
+            return name;
+        }
+
+
+        public String getPosition() {
+            return position;
+        }
+
+
+        public double getSalary() {
+            return salary;
+        }
+    }
+
+    public class Main {
+        static Scanner sc=new Scanner(System.in);
+        private List<employee> employees;
+        private Map<Integer, employee> employeeMap;
+
+        public Main() {
+            employees = new ArrayList<>();
+            employeeMap = new HashMap<>();
+        }
+
+        // Add Employee method
+        public void addEmployee(int employeeID, String name, String position,String type, double salary,double time) {
+            employee newEmployee = new employee(employeeID, name, position, type,salary,time);
+            employees.add(newEmployee);
+            employeeMap.put(employeeID, newEmployee);
+        }
+
+        // Remove Employee method
+        public void removeEmployee(int employeeID) {
+            employee removedEmployee = employeeMap.remove(employeeID);
+            if (removedEmployee != null) {
+                employees.remove(removedEmployee);
+                System.out.println("Employee with ID " + employeeID + " removed successfully.");
+            } else {
+                System.out.println("Employee with ID " + employeeID + " not found.");
+            }
+        }
+
+        // Display Employee Information method
+        public void displayEmployeeInfo(int employeeID) {
+            employee emp = employeeMap.get(employeeID);
+            emp.display();
+        }
+
+        // Display All Employees method
+        public void displayAllEmployees() {
+            for (employee employee : employees) {
+                employee.display();
+            }
+        }
+
+        // Calculate Total Salary method
+        public void calculateTotalSalary() {
+            double totalSalary = 0;
+            for (employee employee : employees) {
+                totalSalary += employee.getSalary();
+            }
+            System.out.println("Total Salary of all employees: " + totalSalary);
+        }
+
+        // Sort Employees by Salary method
+        public void sortEmployeesBySalary() {
+            Collections.sort(employees, Comparator.comparingDouble(employee::getSalary));
+            System.out.println("Employees sorted by salary:");
+            displayAllEmployees();
+        }
+
+        // Search Employees method
+        public void searchEmployees(String empname) {
+            boolean found = false;
+            for (employee employee : employees) {
+                if (employee.getName().equalsIgnoreCase(empname) ||
+                        employee.getPosition().equalsIgnoreCase(empname) ||
+                        String.valueOf(employee.getSalary()).equalsIgnoreCase(empname)) {
+                    System.out.println("Employee found:");
+                    System.out.println("Employee ID: " + employee.getEmployeeID());
+                    System.out.println("Name: " + employee.getName());
+                    System.out.println("Position: " + employee.getPosition());
+                    System.out.println("Salary: " + employee.getSalary());
+                    System.out.println();
+                    found = true;
+                }
+            }
+            if (!found) {
+                System.out.println("No matching employees found.");
+            }
+        }
+
+        // Update Employee Information method
+        public void updateEmployeeInfo(int employeeID, String name, String position, String type,double salary,double time) {
+            employee employee = employeeMap.get(employeeID);
+
+                employeeMap.remove(employeeID);
+                employee = new employee(employeeID, name, position,type,salary,time);
+                employees.add(employee);
+                employeeMap.put(employeeID, employee);
+                System.out.println("Employee information updated successfully.");
+
+        }
+    public static void main(String[] args) {
+          Main ems=new Main();
+
+        while(true) {
+            System.out.println("Welcome to Employee Management System...");
+            System.out.println("      MENU");
+            System.out.println("   1. ADD EMPLOYEES");
+            System.out.println("   2. REMOVE AN EMPLOYEE");
+            System.out.println("   3. GET EMPLOYEE INFO");
+            System.out.println("   4. EMPLOYEES LIST ");
+            System.out.println("   5. CALCULATE TOTAL SALARY");
+            System.out.println("   6. SEARCH EMPLOYEE");
+            System.out.println("   7. UPDATE EMPLOYEE INFO");
+            System.out.println("   8. SORT BY SALARY(ASC)");
+            System.out.println("   9. EXIT");
+            System.out.println("   ENTER YOUR CHOICE");
+            int ch = sc.nextInt();
+            switch (ch) {
+                case 1:
+                    System.out.print("Enter Employee ID: ");
+                    int empID = sc.nextInt();
+                    sc.nextLine();  // Consume newline
+                    System.out.print("Enter Name: ");
+                    String name = sc.nextLine();
+                    System.out.print("Enter Position: ");
+                    String position = sc.nextLine();
+                    System.out.print("Enter Salary(Monthly): ");
+                    double salary = sc.nextDouble();
+                    System.out.println("Enter job type(1 Full time/ 2 internship");
+
+                    sc.nextLine();
+                    String type="";
+                    while(true){
+                        int t=sc.nextInt();
+
+                        if(t==1){
+                            type="Full time";
+                            break;
+                        }
+                        else if(t==2)
+                        {
+                            type="Internship";
+                            break;
+                        }
+                        else {
+                            System.out.println("Enter valid option");
+                        }
+                    }
+                    System.out.println("Work Period of employee(in years)");
+                    double time=sc.nextInt();
+                    sc.nextLine();
+
+                    ems.addEmployee(empID, name, position, type,salary,time);
+                    break;
+                case 2:
+                    System.out.print("Enter Employee ID to remove: ");
+                    int empToRemove = sc.nextInt();
+                    ems.removeEmployee(empToRemove);
+                    break;
+                case 3:
+                    System.out.println("Enter Employee Id");
+                    int id=sc.nextInt();
+                    sc.nextLine();
+                    ems.displayEmployeeInfo(id);
+                    break;
+                case 4:
+                    ems.displayAllEmployees();
+                    sc.nextLine();
+                    break;
+                case 5:
+                    ems.calculateTotalSalary();
+                    sc.nextLine();
+                    break;
+                case 6:
+                    sc.nextLine();//consumes newline
+                    System.out.println("Enter Employee Name");
+                    String sEmployee=sc.nextLine();
+                    ems.searchEmployees(sEmployee);
+                    System.out.println("Press any key");
+                    sc.nextLine();
+                    break;
+                case 7:
+                    System.out.println("Enter ID of employee to update");
+                    int uid=sc.nextInt();
+                    sc.nextLine();
+                    if(!ems.employeeMap.containsKey(uid))
+                    {
+                        System.out.println("Employee with ID " + uid + " not found.");
+                    }
+                    else{
+                        System.out.print("Enter Name: ");
+                        String uname = sc.nextLine();
+                        System.out.print("Enter Position: ");
+                        String uposition = sc.nextLine();
+                        System.out.print("Enter Salary(Monthly): ");
+                        double usalary = sc.nextDouble();
+                        System.out.println("Enter job type(1 Full time/ 2 internship");
+
+                        sc.nextLine();
+                        String utype="";
+                        while(true){
+                            int t=sc.nextInt();
+
+                            if(t==1){
+                                type="Full time";
+                                break;
+                            }
+                            else if(t==2)
+                            {
+                                type="Internship";
+                                break;
+                            }
+                            else {
+                                System.out.println("Enter valid option");
+                            }
+                        }
+                        System.out.println("Work Period of employee(in years)");
+                        double utime=sc.nextInt();
+                        sc.nextLine();
+                        ems.updateEmployeeInfo(uid,uname,uposition,utype,usalary,utime);
+
+                    }
+                    break;
+                case 8:
+                    ems.sortEmployeesBySalary();
+                    System.out.println("Press any key to continue..");
+                    sc.nextLine();
+                    break;
+                case 9:
+                    System.out.println("Exiting...");
+                    sc.close();
+                    System.exit(0);
+
+                default:
+                    System.out.println("INVALID INPUT!! PLEASE SELECT A VALID OPTION");
+                    }
+
+
+
+        }
+
+    }
+}
