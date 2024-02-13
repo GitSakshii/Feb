@@ -1,0 +1,247 @@
+
+import java.util.*;
+
+//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+abstract class vehicle{
+    String maker;
+    String model;
+    double year;
+    double rentalPrice;
+    Boolean isAvailable;
+   abstract double  rentalcost(int days);
+   public vehicle(String maker,String model,double years,double rentalPrice)
+   {
+       this.maker=maker;
+       this.model=model;
+       this.year=years;
+       this.rentalPrice=rentalPrice;
+       this.isAvailable =true;
+   }
+   public String getMaker() {return maker;}
+   public double getYear(){return year;}
+   public String getmodel(){return model;}
+   public double getRentalPrice(){return rentalPrice;}
+   public Boolean getstatus(){return isAvailable;}
+   public void setIsAvailable(boolean s)
+   {
+       this.isAvailable =s;
+   }
+}
+class Car extends vehicle{
+    private int seats;
+    private String fuelType;
+    public  Car(String maker,String model,double years,double rentalPrice,int seats,String fuelType)
+    {
+        super(maker,model,years,rentalPrice);
+        this.seats=seats;
+        this.fuelType=fuelType;
+    }
+    public double rentalcost(int days)
+    {
+        return days*rentalPrice;
+    }
+    public int getseats(){return seats;}
+    public String getFuelType(){return fuelType;}
+
+
+}
+class customer {
+    private String name;
+    private String email;
+
+    public customer(String name ,String email)
+    {
+        this.name=name;
+        this.email=email;
+       
+    }
+    public String getName(){
+        return name;
+    }
+    public  String getEmail()
+    {
+        return email;
+    }
+}
+
+class rental{
+    private vehicle vehicle;
+    private customer customer;
+    private int days;
+    public rental(vehicle vehicle ,customer customer,int days)
+    {
+        this.vehicle=vehicle;
+        this.customer=customer;
+        this.days=days;
+    }
+    public vehicle getVehicle(){
+        return vehicle;
+    }
+    public customer getCustomer(){return customer;}
+    public int getDays(){return days;}
+    
+}
+class RentalAgency{
+   public List<Car>vehicles;
+   public List<rental>rentals;
+
+   public RentalAgency()
+   {
+       this.vehicles=new ArrayList<>();
+       this.rentals=new ArrayList<>();
+   }
+   public Car rent(String maker,String model,int days)
+    {
+        for( Car v:vehicles)
+        {
+            if(v.getMaker().equals(maker)&& v.getmodel().equals(model)&& v.getstatus())
+            {
+                v.setIsAvailable(false);
+                double totalcost= v.rentalcost(days) ;
+                System.out.println("Total Cost is"+totalcost);
+                System.out.println("Vehicle Rented Successfully");
+                return v;
+            }
+        }
+        System.out.println("Vehicle is not available!!");
+        return null;
+    }
+    void returnVehicle(String maker,String model)
+    {
+         for (Car v:vehicles)
+         {
+             if(v.getMaker().equals(maker)&& v.getmodel().equals(model)&& !v.getstatus())  {
+                 v.setIsAvailable(true);
+                 System.out.println("Vehicle has been Successfully returned");
+                 return;
+             }
+         }
+        System.out.println("This Vehicle has not been rented!!");
+
+    }
+
+}
+public class Main {
+    static Scanner sc=new Scanner(System.in);
+    public static void main(String[] args) {
+        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
+        // to see how IntelliJ IDEA suggests fixing it.
+        RentalAgency r=new RentalAgency();
+
+        System.out.println("Welcome to Car Rental System");
+        while(true) {
+            System.out.println("\nMenu");
+            System.out.println("1.Add Car");
+            System.out.println("2.Rent A Car");
+            System.out.println("3.Return Vehicle");
+            System.out.println("4.View Rented Vehicles");
+            System.out.println("5.View Available Vehicles");
+            System.out.println("6.Customers and Rented vehicles");
+            System.out.println("7.Exit");
+            System.out.println("Enter your choice:");
+            int ch=sc.nextInt();
+            sc.nextLine();
+            switch (ch)
+            {
+                case 1:
+                    System.out.println("Maker of car: ");
+                    String maker=sc.nextLine();
+                    System.out.println("Model of car:");
+                    String model=sc.nextLine();
+                    System.out.println("Year of manufacturer");
+                    double year=sc.nextInt();
+                    sc.nextLine();
+                    System.out.println("Rentel Price");
+                    double rentprice=sc.nextInt();
+                    System.out.println("Seats :");
+                    int seats=sc.nextInt();
+                    System.out.println("Fuel Type");
+                    String fuelType=sc.nextLine();
+                    Car car=new Car(maker,model,year,rentprice,seats,fuelType) ;
+                    r.vehicles.add(car);
+                    System.out.println("Vehicle Added Successfully!!! ");
+                    break;
+                case 2:
+                    System.out.println("Enter Vehicle maker of the vehicle to rent");
+                    String mak=sc.nextLine();
+                    System.out.println("Enter Model of car");
+                    String rmodel=sc.nextLine();
+                    System.out.println("Enter your name:");
+                    String name=sc.nextLine();
+                    System.out.println("Enter your email:");
+                    String email=sc.nextLine();
+                    System.out.println("Enter number of days for rent");
+                    int days=sc.nextInt();
+                    Car ca= r.rent(mak,rmodel,days);
+                    if(ca!=null) {
+                        customer c = new customer(name, email);
+                        rental rental = new rental(ca, c, days);
+                        r.rentals.add(rental);
+                        System.out.println("Rented vehicle details:");
+                        System.out.println("Maker of Vehicle:"+ ca.getMaker());
+                        System.out.println("Model of vehicle:"+ ca.getmodel());
+                        System.out.println("Year of Manufacture: "+ ca.getYear());
+                        System.out.println("Rental Price :"+ca.getRentalPrice());
+                        System.out.println("Number of seats: "+ca.getseats());
+                        System.out.println("Fuel Type: "+ca.getFuelType());
+                        System.out.println("Press Any key..");
+                        sc.nextLine();
+                    }
+                    break;
+                case 3:
+                      System.out.println("Enter Vehicle maker of the vehicle to return");
+                      String rmaker=sc.nextLine();
+                      System.out.println("Enter the model of the vehicle");
+                      String modelr=sc.nextLine();
+                      r.returnVehicle(rmaker,modelr);
+
+                    break;
+                case 4:
+                    System.out.println("Rented Vehicles ");
+                    int i=1;
+                    for(Car c:r.vehicles)  {
+                        if(!c.isAvailable){
+                            System.out.println(i++);
+                            System.out.println("Maker of Vehicle:"+ c.getMaker());
+                            System.out.println("Model of vehicle:"+ c.getmodel());
+                            System.out.println("Year of Manufacture: "+ c.getYear());
+                            System.out.println("Rental Price :"+c.getRentalPrice());
+                            System.out.println("Number of seats: "+c.getseats());
+                            System.out.println("Fuel Type: "+c.getFuelType());
+
+                            sc.nextLine();
+                        }
+                    }
+                    break;
+                case 5:
+                    System.out.println("Available Vehicles :");
+                    int j=1;
+                    for(Car c:r.vehicles)  {
+                        if(!c.isAvailable){
+                            System.out.println(j++);
+                            System.out.println("Maker of Vehicle:"+ c.getMaker());
+                            System.out.println("Model of vehicle:"+ c.getmodel());
+                            System.out.println("Year of Manufacture: "+ c.getYear());
+                            System.out.println("Rental Price :"+c.getRentalPrice());
+                            System.out.println("Number of seats: "+c.getseats());
+                            System.out.println("Fuel Type: "+c.getFuelType());
+
+                            sc.nextLine();
+                        }
+                    }
+                    break;
+                case 6:
+                    for(rental rental:r.rentals)
+                    {
+                        System.out.println("Name of Customer:"+r.);
+                    }
+                default :
+                    System.out.println("Enter valid option");
+
+
+            }
+
+        }
+    }
+}
