@@ -201,7 +201,7 @@ public class Main {
                     System.out.println("Rented Vehicles ");
                     int i=1;
                     for(Car c:r.vehicles)  {
-                        if(!c.isAvailable){
+                        if(c.isAvailable){
                             System.out.println(i++);
                             System.out.println("Maker of Vehicle:"+ c.getMaker());
                             System.out.println("Model of vehicle:"+ c.getmodel());
@@ -234,8 +234,20 @@ public class Main {
                 case 6:
                     for(rental rental:r.rentals)
                     {
-                        System.out.println("Name of Customer:"+r.);
+                        System.out.println("Name of Customer:"+rental.getCustomer().getName());
+                        System.out.println("Email :"+rental.getCustomer().getEmail());
+                        System.out.println("Rented Car");
+                        System.out.println("Maker of Vehicle:"+ rental.getVehicle().getMaker());
+                        System.out.println("Model of vehicle:"+ rental.getVehicle().getmodel());
+                        System.out.println("Year of Manufacture: "+ rental.getVehicle().getYear());
+                        System.out.println("Rental Price :"+rental.getVehicle().getRentalPrice());
+                        System.out.println("Rented for "+rental.getDays()+" days");
+
                     }
+                case 7:
+                    System.out.println("Exiting...");
+                    sc.close();
+                    System.exit(0);
                 default :
                     System.out.println("Enter valid option");
 
