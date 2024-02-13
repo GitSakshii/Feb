@@ -3,6 +3,7 @@ import java.util.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+//Abstract class representing a vehicle
 abstract class vehicle{
     String maker;
     String model;
@@ -28,6 +29,7 @@ abstract class vehicle{
        this.isAvailable =s;
    }
 }
+//Class representing a Car ,extends vehicle
 class Car extends vehicle{
     private int seats;
     private String fuelType;
@@ -46,6 +48,7 @@ class Car extends vehicle{
 
 
 }
+//Class representing a customer
 class customer {
     private String name;
     private String email;
@@ -64,7 +67,7 @@ class customer {
         return email;
     }
 }
-
+// Class representing a customer and rented vehicle
 class rental{
     private vehicle vehicle;
     private customer customer;
