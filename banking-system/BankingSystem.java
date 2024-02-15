@@ -25,6 +25,7 @@ public class BankingSystem {
             String accountno = sc.nextLine();
             System.out.println("Enter Amount:");
             double amount = sc.nextInt();
+            if(amount<0)throw new BankException.NegativeAmountException();
             System.out.println();
             for (BankAccount b : Accounts) {
                 if (b.getAccountNumber().equals(accountno)) {
@@ -37,10 +38,11 @@ public class BankingSystem {
                     return;
                 }
             }
-            throw new BankException("Invalid Account:" + accountno);
-        }catch (InputMismatchException e){
-            System.out.println("Invalid input . Please Enter a valid number");
-        }catch (BankException e){
+            throw new BankException.NonExistenceAccountException();
+        }catch (BankException.NonExistenceAccountException e){
+            System.out.println(e.getMessage());
+        }catch (BankException.NegativeAmountException e)
+        {
             System.out.println(e.getMessage());
         }
 
@@ -58,7 +60,7 @@ public class BankingSystem {
                 if (b.getAccountNumber().equals(accountno)) {
                     double balance = b.getBalance();
                     if (balance < amount) {
-                        throw new BankException("Not Enough Balance");
+                        throw new BankException.InsufficientFundsException();
 
                     }
                     b.setBalance(balance - amount);
@@ -68,15 +70,15 @@ public class BankingSystem {
                     return;
                 }
             }
-            throw new BankException("Invalid Account: " + accountno);
-        }catch (InputMismatchException e){
-            System.out.println("Invalid input.Please enter a valid number");
+            throw new BankException.NonExistenceAccountException();
+        }catch (BankException.InsufficientFundsException e){
+            System.out.println(e.getMessage());
 
         }
-        catch (BankException e){
+        catch (BankException.NonExistenceAccountException e){
             System.out.println(e.getMessage());
         }
-        System.out.println("Invalid Account!!");
+
 
     }
 
@@ -88,16 +90,15 @@ public class BankingSystem {
             String from = sc.nextLine();
             System.out.println("Transfer into: Account Number ");
             String to = sc.nextLine();
-            if (from == null || to == null) {
-                throw new BankException("Invalid Account Number");
-            }
+            if(from == null || to == null||from.length()!=12||to.length()!=12)throw new BankException.InvalidAccountException();
+            
             System.out.println("Enter Amount");
             double amount = sc.nextInt();
             for (BankAccount b : Accounts) {
                 if (b.getAccountNumber().equals(from)) {
                     double balance = b.getBalance();
                     if (balance < amount) {
-                        throw new BankException("Not enough balance in your Account!!");
+                        throw new BankException.InsufficientFundsException();
                     }
                     transaction t = new transaction(id, "transfer, -", amount);
                     b.addtransaction(t);
@@ -114,19 +115,20 @@ public class BankingSystem {
                     return;
                 }
             }
-        }catch (InputMismatchException e){
-        System.out.println("Invalid Account number.Please Enter a valid number");}
-        catch (BankException e){
+        }catch (BankException.InvalidAccountException e){
+        System.out.println(e.getMessage());}
+        catch (BankException.InsufficientFundsException e){
             System.out.println(e.getMessage());
         }
     }
-    //Functio for viewing transaction history of an account
+    //Function for viewing transaction history of an account
     void transactionhistory(Scanner sc)
     {
         try {
             sc.nextLine();
             System.out.println("Enter Account Number ");
             String acc = sc.nextLine();
+            if(acc.length()!=12)throw new BankException.InvalidAccountException();
             boolean found = false;
             for (BankAccount b : Accounts) {
                 if (b.getAccountNumber().equals(acc)) {
@@ -136,12 +138,18 @@ public class BankingSystem {
                 }
             }
             if (!found) {
-                throw new BankException("Account Not Found");
+                throw new BankException.NonExistenceAccountException();
             }
-        }catch (BankException e){
+        }catch (BankException.NonExistenceAccountException e){
+            System.out.println(e.getMessage());
+        }
+        catch (BankException.InvalidAccountException e)
+        {
             System.out.println(e.getMessage());
         }
     }
 
 }
+
+
 
