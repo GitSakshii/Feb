@@ -1,7 +1,7 @@
 public class File {
     String fileName;//Name of the file
     int fileSize;//Size of the file
-    Boolean isReplicated;//incator wheather the file is replicated
+    Boolean isReplicated;//indicates whether the file is replicated
     // Constructor to initialize the file attributes
     public File(String fileName, int fileSize, boolean isReplicated) {
         this.fileName = fileName;
