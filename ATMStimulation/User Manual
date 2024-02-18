@@ -1,0 +1,26 @@
+Compilation: Compile all the provided Java files (Main.java, Account.java, Bank.java, and ATM.java) using a Java compiler.
+
+Execution: Run the compiled Main class to start the ATM simulation.
+
+Follow Instructions: Once the program is running, follow the on-screen instructions to perform different banking operations.
+Menu Options:
+Login: Choose this option to log into your bank account. You will be prompted to select your bank (HDFC, SBI, or ICICI) and enter your card number and PIN.
+Some of the card numbers and pin are given below
+/*           hdfc  card number       pin       name
+      *           000000100100      1000      Customer1
+      *           000000100101      1001      Customer2
+      *           ...
+      *      sbi  000000200200      1000      Customer1
+      *           000000200201      1001      Customer2
+      *           ...
+      *    icici  000000300300      1000      Customer1
+      *          000000300301      1001      Customer2*/
+
+Transfer Money: After logging in, you can select this option to transfer money to another account. You'll need to provide the recipient bank, recipient account number, and the amount you want to transfer.
+
+Withdraw: This option allows you to withdraw cash from your account. Enter the amount you wish to withdraw.
+
+Check Balance: Select this option to view your account balance.
+
+Log Out: Use this option to log out of your account.
+
