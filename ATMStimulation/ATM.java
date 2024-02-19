@@ -10,7 +10,10 @@ public class ATM {
         System.out.println("Amount:");
         double amount = sc.nextDouble();
         b.deposit(recipientAccountNumber, amount,recipientBank);
-        b.deduct(userAccount, amount,userBank);
+        //if recipient bank is same as user bank no money would be deducted on transaction
+        if(!recipientBank.equals(userBank))//it would only be deducted when both banks are different
+        {
+        b.deduct(userAccount, amount,userBank);}
 
     }
 
