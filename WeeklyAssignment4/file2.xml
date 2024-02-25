@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <person>
+        <name>Emily</name>
+        <age>35</age>
+        <city>Paris</city>
+    </person>
+    <person>
+        <name>Michael</name>
+        <age>40</age>
+        <city>Berlin</city>
+    </person>
+    <animal>
+        <type>Dog</type>
+        <name>Rex</name>
+    </animal>
+</root>
