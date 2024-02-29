@@ -1,6 +1,6 @@
 import java.util.Scanner;
 import java.util.Stack;
-
+//Find the area of largest rectangle formed by a histogram
 public class LargestRectangle {
     public static void main(String[] args) {
         Scanner scanner =new Scanner(System.in);
@@ -11,8 +11,8 @@ public class LargestRectangle {
            arr[i]=scanner.nextInt();
         }
         Stack<Integer> stack=new Stack<Integer>();
-        int[] leftSmall=new int[n];
-        int[] rightSmall=new int[n];
+        int[] leftSmall=new int[n];//array to store left small
+        int[] rightSmall=new int[n];//Array to store right small value
         for(int i=0;i<n;i++){
             while(!stack.empty()&& arr[stack.peek()]>=arr[i])
             {
@@ -36,7 +36,8 @@ public class LargestRectangle {
             else rightSmall[i]=stack.peek();
             stack.push(i);
         }
-        int ans=0;
+        
+        int ans=0;//Initialize ans to zero
         for(int i=0;i<n;i++){
             System.out.println(leftSmall[i]+" "+rightSmall[i]);
             int area=arr[i]*(rightSmall[i]-leftSmall[i]-1);
