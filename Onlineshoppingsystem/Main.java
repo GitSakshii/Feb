@@ -4,9 +4,8 @@ import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    private static List<Product> products=new ArrayList<>();;
-    private static Scanner sc=new Scanner (System.in);
+
+
     abstract class Product{
         int productid,price;
         String productName;
@@ -23,7 +22,7 @@ public class Main {
         public abstract void display();
 
     }
-    public class electronics extends Product{
+    class electronics extends Product{
 
         int warrantyperiod;
         int powerconsumption;
@@ -41,7 +40,7 @@ public class Main {
 
         }
     }
-    public class Clothing extends Product{
+    class Clothing extends Product{
        String size,color;
         public Clothing(int productid,int price,String productName,String size,String color)
         {
@@ -59,7 +58,7 @@ public class Main {
         }
 
     }
-    public static class Order{
+     class Order{
         private ArrayList<Product> orders;
         private double totalAmount;
         public Order() {
@@ -76,7 +75,7 @@ public class Main {
             System.out.println("Order Details:");
             System.out.println("Total Amount: $" + totalAmount);
             System.out.println("Products:");
-            for (Product product : products) {
+            for (Product product :Main.products) {
                 System.out.println("- " + product.getProductName() + " " + product.getprice() + " ");
             }
         }
@@ -94,7 +93,7 @@ public class Main {
     {
         void addproduct(Product product)
         {
-            products.add(product);
+            Main.products.add(product);
         }
     }
 
@@ -105,7 +104,7 @@ public class Main {
 
     }
 
-    static class guest implements user{
+     class guest implements user{
         private List<Product> cart;
 
         public guest() {
@@ -114,7 +113,7 @@ public class Main {
         public void browseproducts()
         {
             System.out.println("    Product list ");
-            for(Product product:products)
+            for(Product product:Main.products)
             {
                 product.display();
             }
@@ -129,19 +128,19 @@ public class Main {
 
 
     }
-   static class registereduser implements user{
+    class registereduser implements user{
        private List<Product> cart;
         public registereduser(){
             this.cart=new ArrayList<>();
         }
         void addproduct(Product product)
         {
-            products.add(product);
+            Main.products.add(product);
         }
         public void browseproducts()
         {
             System.out.println("    Product list ");
-            for(Product product:products)
+            for(Product product:Main.products)
             {
                 product.display();
             }
@@ -161,6 +160,10 @@ public class Main {
            cart.clear();
        }
     }
+    public class Main {
+        static List<Product> products=new ArrayList<>();;
+        private static Scanner sc=new Scanner (System.in);
+
     public static void main(String[] args) {
         registereduser a=new registereduser();
         Order o=new Order();
@@ -248,13 +251,14 @@ public class Main {
                 case 3:
                     //adminlogin();
                     System.out.println("    1.Add product");
-
+                    System.out.println("    Enter Choice");
                     int c=sc.nextInt();
+
                     switch(c)
                     {
                         case 1:
-                            System.out.println("    Add Electronics");
-                            System.out.println("    Add Clothes");
+                            System.out.println("   1. Add Electronics");
+                            System.out.println("   2. Add Clothes");
                             int p=sc.nextInt();
                             switch (p)
                             {
@@ -270,7 +274,7 @@ public class Main {
                                     int warranty=sc.nextInt();
                                     System.out.println("    Power Consumption");
                                     int power=sc.nextInt();
-                                    Main.electronics e=new Main().new electronics(pid,price,pname,warranty,power);
+                                    electronics e=new electronics(pid,price,pname,warranty,power);
                                     a.addproduct(e);
                                     System.out.println("    Product Added Successfully");
                                     System.out.println("    Press any key.."   );
@@ -287,7 +291,7 @@ public class Main {
                                     String size=sc.nextLine();
                                     System.out.println("    Color");
                                     String color=sc.nextLine();
-                                    Clothing cloth=new Main().new Clothing(prod,pprice,name,size,color);
+                                    Clothing cloth=new Clothing(prod,pprice,name,size,color);
                                     a.addproduct(cloth);
                                     System.out.println("    Product Added Successfully");
                                     System.out.println("    Press any key"   );
