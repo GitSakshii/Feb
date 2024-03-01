@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class HeightOrder {
+public class QueueReconstruction {
     public static int[] reconstructQueue(int[] heights, int[] inFronts) {
         int n = heights.length;
         int[][] people = new int[n][2]; // [height, inFronts]
